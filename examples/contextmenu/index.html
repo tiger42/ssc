@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Context Menu Testpage</title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        html, body { height: 100%; }
+        .foo { width: 250px; height: 150px; background-color: #ddd;
+            float: left; margin: 20px; text-align: center; line-height: 80px; }
+    </style>
+<head>
+
+<body>
+    <div class="foo">
+        Right-click me!<br />
+        <button class="add">Add menu</button>
+        <button class="remove">Remove menu</button>
+    </div>
+    <div class="foo">
+        Right-click me!<br />
+        <button class="add">Add menu</button>
+        <button class="remove">Remove menu</button>
+    </div>
+    <div style="clear: both;"></div>
+    <button id="removeAll">Remove all div menus</button>
+
+    <br /><br />
+    This is the document body. You may right-click here too.
+    <br />
+    <button class="add">Add body menu</button>
+    <button class="remove">Remove body menu</button>
+    <button class="switchConfig">Switch body menu config</button>
+    <br /><br />
+    <b>Watch the debug console when clicking the context menu items!</b>
+
+    <script type="text/javascript" src="../../ssc.contextmenu.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+</body>
+</html>

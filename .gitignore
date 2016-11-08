@@ -1,0 +1,7 @@
+doc/
+
+# Eclipse IDE
+.buildpath
+.project
+.settings/
+
