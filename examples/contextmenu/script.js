@@ -17,11 +17,11 @@ const divMenuConfig = [{
     label : 'Submenu',
     sub: [{
         label   : 'Submenu item 1',
-        icon  : 'icons/snow.png',
+        icon    : 'icons/snow.png',
         onclick : handleClick
     }, {
         label   : 'Submenu item 2',
-        icon  : 'icons/star.png',
+        icon    : 'icons/star.png',
         onclick : handleClick
     }]
 }, {
@@ -143,4 +143,3 @@ divMenu.attachTo(document.getElementsByClassName('foo'));
 // Context menu of document body
 const bodyMenu = new SSC.ContextMenu(bodyMenuConfig, 'bodyContextMenu');
 bodyMenu.attachTo(document.body);
-

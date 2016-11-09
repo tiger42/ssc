@@ -22,11 +22,11 @@ if (!window.SSC) {
  *              NOTE: The browser support is {@link http://caniuse.com/#feat=menu|very limited} at the moment!
  *
  * @example
- * var handleClick = function (ev) { console.log(ev.target.id, ev.target.checked); };
+ * var handleClick = (ev) => { console.log(ev.target.id, ev.target.checked); };
  * var config = [{
  *     label   : 'Menu item',
  *     icon    : 'icon.png',
- *     onclick : function (ev) { console.log(ev.target.label); }
+ *     onclick : (ev) => { console.log(ev.target.label); }
  * }, {
  *     type : 'separator'
  * }, {
@@ -76,39 +76,17 @@ SSC.ContextMenu = function (config, id) {
      * @private
      * @type    {Set}
      */
-    let attachedTo = new Set();
+    const attachedTo = new Set();
 
     /**
-     * Test whether the given object is an Array.
+     * Determine the detailed type of the given object.
      * @private
      *
-     * @param   {Object} obj                The object to test
-     * @return  {boolean}                   Is the object an Array?
+     * @param   {Object} obj                The object to determine the type of
+     * @return  {string}                    The object's type
      */
-    const isArray = (obj) => {
-        return Object.prototype.toString.call(obj) == '[object Array]';
-    };
-
-    /**
-     * Test whether the given object is a NodeList.
-     * @private
-     *
-     * @param   {Object} obj                The object to test
-     * @return  {boolean}                   Is the object a NodeList?
-     */
-    const isNodeList = (obj) => {
-        return Object.prototype.toString.call(obj) == '[object NodeList]';
-    };
-
-    /**
-     * Test wether the given object is a HTMLCollection.
-     * @private
-     *
-     * @param   {Object} obj                The object to test
-     * @return  {boolean}                   Is the object an HTMLCollection?
-     */
-    const isHTMLCollection = (obj) => {
-        return Object.prototype.toString.call(obj) == '[object HTMLCollection]';
+    const getTypeOf = (obj) => {
+        return Object.prototype.toString.call(obj).replace(/\[object ([^\]]*)\]/, '$1');
     };
 
     /**
@@ -137,7 +115,7 @@ SSC.ContextMenu = function (config, id) {
      * @throws  {TypeError}                 If an invalid menu item type was given
      */
     const iterateConfig = (conf, menuElem) => {
-        if (!isArray(conf)) {
+        if (getTypeOf(conf) != 'Array') {
             throw new TypeError('(Sub)menu configuration must be an Array');
         };
 
@@ -154,27 +132,26 @@ SSC.ContextMenu = function (config, id) {
                 iterateConfig(conf[i].sub, menuItem);
             } else {
                 menuItem = document.createElement('menuitem');
-
-                Object.keys(conf[i]).forEach((key) => {
-                    switch (key) {
-                        case 'onclick':
-                            menuItem.addEventListener('click', (ev) => {
-                                // Workaround for Chrome fetching wrong checkbox state
-                                window.setTimeout(() => { conf[i].onclick(ev); }, 0);
-                            }, false);
-                            break;
-                        case 'type':
-                            if (!['command', 'checkbox', 'radio'].includes(conf[i].type)) {
-                                throw new TypeError(`Invalid menu item type "${conf[i].type}"`);
-                            };
-                            menuItem.type = conf[i].type;
-                            break;
-                        default:
-                            menuItem[key] = conf[i][key];
-                    }
-                });
             }
-            menuItem.label = conf[i].label;
+
+            Object.keys(conf[i]).forEach((key) => {
+                switch (key) {
+                    case 'onclick':
+                        menuItem.addEventListener('click', (ev) => {
+                            // Workaround for Chrome fetching wrong checkbox state
+                            window.setTimeout(() => { conf[i].onclick(ev); }, 0);
+                        }, false);
+                        break;
+                    case 'type':
+                        if (!['command', 'checkbox', 'radio'].includes(conf[i].type)) {
+                            throw new TypeError(`Invalid menu item type "${conf[i].type}"`);
+                        };
+                        menuItem.type = conf[i].type;
+                        break;
+                    default:
+                        menuItem[key] = conf[i][key];
+                }
+            });
 
             menuElem.appendChild(menuItem);
         }
@@ -210,7 +187,7 @@ SSC.ContextMenu = function (config, id) {
      * @param   {(HTMLElement|Array|NodeList|HTMLCollection)} elements  The element(s) to attach to
      */
     this.attachTo = (elements) => {
-        if (!(isArray(elements) || isNodeList(elements) || isHTMLCollection(elements))) {
+        if (!['Array', 'NodeList', 'HTMLCollection'].includes(getTypeOf(elements))) {
             elements = [elements];
         }
 
@@ -229,8 +206,7 @@ SSC.ContextMenu = function (config, id) {
     this.remove = (elements) => {
         if (elements == null) {
             elements = Array.from(attachedTo);
-        }
-        if (!(isArray(elements) || isNodeList(elements) || isHTMLCollection(elements))) {
+        } else if (!['Array', 'NodeList', 'HTMLCollection'].includes(getTypeOf(elements))) {
             elements = [elements];
         }
 
