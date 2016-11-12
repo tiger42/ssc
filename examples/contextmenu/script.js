@@ -1,15 +1,17 @@
 'use strict';
 
-const handleClick = function (ev) {
+let handleClick = function (ev, el) {
     console.info(`clicked: ${ev.target.label}`);
+    console.info('element:', el);
 };
 
-const handleCheckboxClick = function (ev) {
+let handleCheckboxClick = function (ev, el) {
     console.info((ev.target.checked ? 'checked' : 'unchecked') + ': ' + ev.target.label
          + (ev.target.id ? ` with ID ${ev.target.id}` : ''));
+    console.info('element:', el);
 };
 
-const divMenuConfig = [{
+let divMenuConfig = [{
     label   : 'Menu item',
     icon    : 'icons/computer.png',
     onclick : handleClick
@@ -42,7 +44,7 @@ const divMenuConfig = [{
     }]
 }];
 
-const bodyMenuConfig = [{
+let bodyMenuConfig = [{
     label   : 'Hello world',
     type    : 'command',
     onclick : handleClick
@@ -98,12 +100,12 @@ const bodyMenuConfig = [{
     }]
 }];
 
-const alternativeBodyMenuConfig = [{
+let alternativeBodyMenuConfig = [{
     label   : 'Lorem ipsum...',
     onclick : handleClick
 }];
 
-const switchBodyMenuConfig = (function () {
+let switchBodyMenuConfig = (function () {
     let alternativeConfig = false;
     return function () {
         bodyMenu.setConfig(alternativeConfig ? bodyMenuConfig : alternativeBodyMenuConfig);
@@ -112,7 +114,7 @@ const switchBodyMenuConfig = (function () {
 }());
 
 // Initialize buttons
-const buttons = document.querySelectorAll('div button');
+let buttons = document.querySelectorAll('div button');
 for (let i = 0, len = buttons.length; i < len; i++) {
     buttons[i].addEventListener('click', function (ev) {
         if (buttons[i].className == 'add') {
@@ -136,10 +138,10 @@ document.querySelector('body > button.switchConfig').addEventListener('click', f
 });
 
 // Context menu of div element
-const divMenu = new SSC.ContextMenu();
+let divMenu = new SSC.ContextMenu();
 divMenu.setConfig(divMenuConfig);
-divMenu.attachTo(document.getElementsByClassName('foo'));
+divMenu.attachTo(document.getElementsByClassName('testDiv'));
 
 // Context menu of document body
-const bodyMenu = new SSC.ContextMenu(bodyMenuConfig, 'bodyContextMenu');
+let bodyMenu = new SSC.ContextMenu(bodyMenuConfig, 'bodyContextMenu');
 bodyMenu.attachTo(document.body);

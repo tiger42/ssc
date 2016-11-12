@@ -5,10 +5,11 @@
  */
 
 /**
- * Mouse event handler function.
+ * Event handler function for context menu item click.
  *
- * @callback    clickHandler
+ * @callback    menuItemClickHandler
  * @param       {MouseEvent} ev         The fired event
+ * @param       {HTMLElement} el        The HTML element the context menu has been opened for
  */
 
 if (!window.SSC) {
@@ -22,11 +23,11 @@ if (!window.SSC) {
  *              NOTE: The browser support is {@link http://caniuse.com/#feat=menu|very limited} at the moment!
  *
  * @example
- * var handleClick = (ev) => { console.log(ev.target.id, ev.target.checked); };
- * var config = [{
+ * let handleClick = (ev, el) => { console.log(ev.target.id, ev.target.checked, el); };
+ * let config = [{
  *     label   : 'Menu item',
  *     icon    : 'icon.png',
- *     onclick : (ev) => { console.log(ev.target.label); }
+ *     onclick : (ev, el) => { console.log(ev.target.label, el); }
  * }, {
  *     type : 'separator'
  * }, {
@@ -62,7 +63,7 @@ if (!window.SSC) {
  *         }]
  *     }]
  * }];
- * var contextMenu = new SSC.ContextMenu(config);
+ * let contextMenu = new SSC.ContextMenu(config);
  * contextMenu.attachTo(document.body);
  *
  * @param   {Array} [config]            The menu configuration data
@@ -72,11 +73,18 @@ SSC.ContextMenu = function (config, id) {
     'use strict';
 
     /**
-     * The HTML elements this context menu is attached to.
+     * The HTML elements this context menu is attached to
      * @private
      * @type    {Set}
      */
     const attachedTo = new Set();
+
+    /**
+     * The HTML element the context menu has been opened for
+     * @private
+     * @type    {HTMLElement}
+     */
+    let clickedElement;
 
     /**
      * Determine the detailed type of the given object.
@@ -139,7 +147,9 @@ SSC.ContextMenu = function (config, id) {
                     case 'onclick':
                         menuItem.addEventListener('click', (ev) => {
                             // Workaround for Chrome fetching wrong checkbox state
-                            window.setTimeout(() => { conf[i].onclick(ev); }, 0);
+                            window.setTimeout(() => {
+                                conf[i].onclick(ev, clickedElement);
+                            }, 0);
                         }, false);
                         break;
                     case 'type':
@@ -158,20 +168,30 @@ SSC.ContextMenu = function (config, id) {
     };
 
     /**
+     * Handle the "contextmenu" event.
+     * @private
+     *
+     * @param   {MouseEvent} ev             The event to handle
+     */
+    const handleContextMenuEvent = (ev) => {
+        clickedElement = ev.target;
+    };
+
+    /**
      * Set the menu configuration data.<br />
      * The config array must contain one object per menu item.<br />
      *
-     * @param   {Object[]} config                  The configuration data.<br />
-     *                                             Any global HTML element attribute not documented here can be set too,
-     *                                             though it may have no effect on the menu item.
-     * @param   {string} config[].label            The menu item label
-     * @param   {string} [config[].icon]           URL of an icon image to display
-     * @param   {string} [config[].type=command]   The menu item type (command|checkbox|radio|separator)
-     * @param   {clickHandler} [config[].onclick]  The event handler function for the menu item click
-     * @param   {boolean} [config[].disabled]      If true, render the menu item in disabled state
-     * @param   {boolean} [config[].checked]       If true, render the menu item initially checked<br />(only for checkbox and radio types)
-     * @param   {string} [config[].radiogroup]     A radio group name (only for radio type)
-     * @param   {Object[]} [config[].sub]          A submenu configuration
+     * @param   {Object[]} config                          The configuration data.<br />
+     *                                                     Any global HTML element attribute not documented here can be set too,
+     *                                                     though it may have no effect on the menu item.
+     * @param   {string} config[].label                    The menu item label
+     * @param   {string} [config[].icon]                   URL of an icon image to display
+     * @param   {string} [config[].type=command]           The menu item type (command|checkbox|radio|separator)
+     * @param   {menuItemClickHandler} [config[].onclick]  The event handler function for the menu item click
+     * @param   {boolean} [config[].disabled]              If true, render the menu item in disabled state
+     * @param   {boolean} [config[].checked]               If true, render the menu item initially checked<br />(only for checkbox and radio types)
+     * @param   {string} [config[].radiogroup]             A radio group name (only for radio type)
+     * @param   {Object[]} [config[].sub]                  A submenu configuration
      */
     this.setConfig = (config) => {
         // Remove all current menu items
@@ -193,6 +213,7 @@ SSC.ContextMenu = function (config, id) {
 
         for (let i = 0, len = elements.length; i < len; i++) {
             elements[i].setAttribute('contextmenu', id);
+            elements[i].addEventListener('contextmenu', handleContextMenuEvent);
             attachedTo.add(elements[i]);
         }
     };
@@ -213,6 +234,7 @@ SSC.ContextMenu = function (config, id) {
         for (let i = 0, len = elements.length; i < len; i++) {
             if (attachedTo.has(elements[i])) {
                 elements[i].removeAttribute('contextmenu');
+                elements[i].removeEventListener('contextmenu', handleContextMenuEvent);
                 attachedTo.delete(elements[i]);
             }
         }
