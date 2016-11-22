@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cursor Position Testpage</title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        html, body { height: 100%; }
+        .container { height: 100vh; display: flex; justify-content: center;
+            align-items: center; font-size: 50px;}
+    </style>
+</head>
+
+<body>
+    <button id="addObserver">Add observer</button>
+    <button id="removeObserver">Remove observer</button>
+    <br /><br />
+    Click somewhere in the document to alert the current cursor position.
+    <div class="container">
+        <p class="coordinates">[ <span id="xpos"></span> : <span id="ypos"></span> ]</p>
+    </div>
+
+    <script type="text/javascript" src="../../ssc.cursorpos.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+</body>
+</html>
