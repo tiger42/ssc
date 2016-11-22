@@ -6,7 +6,7 @@ let handleClick = function (ev, el) {
 };
 
 let handleCheckboxClick = function (ev, el) {
-    console.info((ev.target.checked ? 'checked' : 'unchecked') + ': ' + ev.target.label
+    console.info((ev.target.checked ? 'checked' : 'unchecked') + `: ${ev.target.label}`
          + (ev.target.id ? ` with ID ${ev.target.id}` : ''));
     console.info('element:', el);
 };
