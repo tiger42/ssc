@@ -42,7 +42,7 @@ if (!window.SSC) {
  * // Get the cursor position outside of an observer:
  * console.log(SCC.CursorPos.x, SSC.CursorPos.y);
  */
-SSC.CursorPos = (function () {
+SSC.CursorPos = (() => {
     'use strict';
 
     /**
@@ -116,17 +116,15 @@ SSC.CursorPos = (function () {
 
         /**
          * Fetch the mouse cursor coordinates from the given mouse event.<br />
-         * NOTE: The module does not need to be init'ed to use this function.
+         * <b>NOTE:</b> The module does not need to be init'ed to use this function.
          *
          * @param   {MouseEvent} ev             The mouse event to read the coordinates from
          * @return  {Coordinates}               The mouse cursor coordinates
          */
-        getFromEvent : (ev) => {
-            return {
-                x : ev.pageX,
-                y : ev.pageY
-            };
-        },
+        getFromEvent : (ev) => ({
+            x : ev.pageX,
+            y : ev.pageY
+        }),
 
         /**
          * Add an observer function or object.
@@ -147,4 +145,4 @@ SSC.CursorPos = (function () {
             observers.delete(observer);
         }
     };
-}());
+})();

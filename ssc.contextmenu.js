@@ -20,7 +20,7 @@ if (!window.SSC) {
  * Create a new SSC.ContextMenu instance.
  * @class
  * @classdesc   Helper for generating HTML5 context menus.<br />
- *              NOTE: The browser support is {@link http://caniuse.com/#feat=menu|very limited} at the moment!
+ *              <b>NOTE:</b> The browser support is {@link http://caniuse.com/#feat=menu|very limited} at the moment!
  *
  * @example
  * let handleClick = (ev, el) => { console.log(ev.target.id, ev.target.checked, el); };
@@ -93,9 +93,7 @@ SSC.ContextMenu = function (config, id) {
      * @param   {Object} obj                The object to determine the type of
      * @return  {string}                    The object's type
      */
-    const getTypeOf = (obj) => {
-        return Object.prototype.toString.call(obj).replace(/\[object ([^\]]*)\]/, '$1');
-    };
+    const getTypeOf = (obj) => Object.prototype.toString.call(obj).replace(/\[object ([^\]]*)\]/, '$1');
 
     /**
      * Create the HTML element for the context menu.
