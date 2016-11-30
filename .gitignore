@@ -1,4 +1,6 @@
 doc/
+bin/
+tests/
 
 # Eclipse IDE
 .buildpath

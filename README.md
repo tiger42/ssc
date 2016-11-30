@@ -5,7 +5,7 @@ Simple Selfcontained Components for JavaScript.
 The components provided by this repository are completely independent from each other or any third-party
 packages/libraries/whatsoever.
 
-Included Components
+Included components
 -------------------
 ### ssc.contextmenu.js
 A helper for generating HTML5 context menus
@@ -13,7 +13,13 @@ A helper for generating HTML5 context menus
 ### ssc.cursorpos.js
 An observable module for acquiring the current mouse cursor coordinates
 
+### ssc.date.js
+A collection of date related functions
+
+API documentation
+-----------------
+The generated JSDoc documentation for all components can be found here: [http://ssc.codefoo.org/](http://ssc.codefoo.org/)
+
 Requirements
 ------------
 A current browser...
-
