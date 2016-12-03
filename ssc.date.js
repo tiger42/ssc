@@ -287,6 +287,8 @@ SSC.Date = {
         const wdays  = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
+        let ms, sec, min, hour, wday, day, mon;
+
         const code = {
             // Day
             d : (d) => (day = d.getDate()) < 10 ? '0' + day : day,
@@ -294,13 +296,10 @@ SSC.Date = {
             j : (d) => d.getDate(),
             l : (d) => wdays[d.getDay()],
             N : (d) => (wday = d.getDay()) === 0 ? 7 : wday,
-            S : (d) => {
-                const day = d.getDate();
-                return day == 1 || day == 21 || day == 31 ? 'st'
+            S : (d) => (day = d.getDate()) == 1 || day == 21 || day == 31 ? 'st'
                     : (day == 2 || day == 22 ? 'nd'
-                        : (day == 3 || day == 23 ? 'rd' : 'th'));
-            },
-            w : (d) =>d.getDay(),
+                        : (day == 3 || day == 23 ? 'rd' : 'th')),
+            w : (d) => d.getDay(),
             z : (d) => {
                 const year = d.getYear();
                 let days = 0;
@@ -332,10 +331,7 @@ SSC.Date = {
 
             // Month
             F : (d) => months[d.getMonth()],
-            m : (d) => {
-                const mon = d.getMonth() + 1;
-                return mon < 10 ? '0' + mon : mon;
-            },
+            m : (d) => (mon = d.getMonth() + 1) < 10 ? '0' + mon : mon,
             M : (d) => months[d.getMonth()].substr(0, 3),
             n : (d) => d.getMonth() + 1,
             t : (d) => SSC.Date.getDaysOfMonth(d.getMonth(), d.getFullYear()),
@@ -345,15 +341,11 @@ SSC.Date = {
             o : (d) => {
                 let year = d.getFullYear();
                 const week = Number(code.W(d));
-                if (week == 1 && d.getMonth() == 11) {
-                    year++;
-                } else if (week >= 52 && d.getMonth() === 0) {
-                    year--;
-                }
-                return year;
+                return (week == 1 && d.getMonth() == 11) ? ++year :
+                    (week >= 52 && d.getMonth() === 0) ? --year : year;
             },
             Y : (d) => d.getFullYear(),
-            y : (d) => String(d.getFullYear()).substr(2, 2),
+            y : (d) => (d.getFullYear() + '').substr(2, 2),
 
             // Time
             a : (d) => d.getHours() < 12 ? 'am' : 'pm',
@@ -368,26 +360,12 @@ SSC.Date = {
             },
             g : (d) => d.getHours() % 12 || 12,
             G : (d) => d.getHours(),
-            h : (d) => {
-                const hour = d.getHours() % 12 || 12;
-                return hour < 10 ? '0' + hour : hour;
-            },
-            H : (d) => {
-                const hour = d.getHours();
-                return hour < 10 ? '0' + hour : hour;
-            },
-            i : (d) => {
-                const min = d.getMinutes();
-                return min < 10 ? '0' + min : min;
-            },
-            s : (d) => {
-                const sec = d.getSeconds();
-                return sec < 10 ? '0' + sec : sec;
-            },
-            u : (d) => {
-                const ms = d.getMilliseconds();
-                return (ms < 10 ? '00' + ms : (ms < 100 ? '0' + ms : ms)) + '000';
-            },
+            h : (d) => (hour = d.getHours() % 12 || 12) < 10 ? '0' + hour : hour,
+            H : (d) => (hour = d.getHours()) < 10 ? '0' + hour : hour,
+            i : (d) => (min = d.getMinutes()) < 10 ? '0' + min : min,
+            s : (d) => (sec = d.getSeconds()) < 10 ? '0' + sec : sec,
+            u : (d) => ((ms = d.getMilliseconds()) < 10 ? '00' + ms
+                    : (ms < 100 ? '0' + ms : ms)) + '000',
 
             // Timezone
             //e : (d) => '',   // not supported (timezone identifier)
