@@ -73,14 +73,14 @@ SSC.ContextMenu = function (config, id) {
     'use strict';
 
     /**
-     * The HTML elements this context menu is attached to
+     * The HTML elements this context menu is attached to.
      * @private
      * @type    {Set}
      */
     const attachedTo = new Set();
 
     /**
-     * The HTML element the context menu has been opened for
+     * The HTML element the context menu has been opened for.
      * @private
      * @type    {HTMLElement}
      */

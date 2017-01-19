@@ -53,7 +53,7 @@ SSC.CursorPos = (() => {
     let inited = false;
 
     /**
-     * The set of registered observers
+     * The set of registered observers.
      * @private 
      * @type    {Set.<Function>}
      */
@@ -71,7 +71,7 @@ SSC.CursorPos = (() => {
     };
 
     /**
-     * Notify all registered observers
+     * Notify all registered observers.
      * @private
      *
      * @param   {MouseEvent} ev             The calling event
@@ -88,13 +88,13 @@ SSC.CursorPos = (() => {
 
     return /** @lends SSC.CursorPos */ {
         /**
-         * The X value of the current cursor position
+         * The X value of the current cursor position.
          * @type    {number}
          */
         x : null,
 
         /**
-         * The Y value of the current cursor position
+         * The Y value of the current cursor position.
          * @type    {number}
          */
         y : null,
