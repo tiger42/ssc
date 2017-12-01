@@ -25,7 +25,9 @@
   * @property   {mouseMoveObserverFn} notify  The observer callback function
   */
 
-window.SSC = window.SSC || {};
+if (!window.SSC) {
+    window.SSC = {};
+}
 
 /**
  * An observable module for acquiring the current mouse cursor coordinates.
@@ -55,7 +57,7 @@ SSC.CursorPos = (() => {
      * @private 
      * @type    {Set.<Function>}
      */
-    const observers = new Set();
+    const observers =  new Set();
 
     /**
      * Set the cursor coordinates.

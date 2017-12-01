@@ -12,7 +12,9 @@
  * @param       {HTMLElement} el        The HTML element the context menu has been opened for
  */
 
-window.SSC = window.SSC || {};
+if (!window.SSC) {
+    window.SSC = {};
+}
 
 /**
  * Create a new SSC.ContextMenu instance.
@@ -67,7 +69,7 @@ window.SSC = window.SSC || {};
  * @param   {Array} [config]            The menu configuration data
  * @param   {string} [id]               The HTML element ID of the context menu to set
  */
-SSC.ContextMenu = (config, id) => {
+SSC.ContextMenu = function (config, id) {
     'use strict';
 
     /**
