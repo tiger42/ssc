@@ -12,9 +12,7 @@
  * @param       {HTMLElement} el        The HTML element the context menu has been opened for
  */
 
-if (!window.SSC) {
-    window.SSC = {};
-}
+window.SSC = window.SSC || {};
 
 /**
  * Create a new SSC.ContextMenu instance.

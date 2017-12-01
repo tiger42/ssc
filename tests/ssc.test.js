@@ -1,6 +1,4 @@
-if (!window.SSC) {
-    window.SSC = {};
-}
+window.SSC = window.SSC || {};
 
 SSC.Test = (() => {
     'use strict';

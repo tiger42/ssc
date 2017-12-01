@@ -3,9 +3,7 @@
  * @author   Marc-Oliver Stühmer <marc-oliver@stuehmer.info>
  */
 
-if (!window.SSC) {
-    window.SSC = {};
-}
+window.SSC = window.SSC || {};
 
 /**
  * A collection of date related functions.
