@@ -10,6 +10,9 @@ Included components
 ### ssc.contextmenu.js
 A helper for generating HTML5 context menus
 
+### ssc.cookie.js
+A Singleton wrapper for the document cookie
+
 ### ssc.cursorpos.js
 An observable module for acquiring the current mouse cursor coordinates
 
