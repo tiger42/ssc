@@ -88,7 +88,7 @@ SSC.Cookie = (() => {
         const write = () => {
             let str = cname + '=' + encodeURIComponent(JSON.stringify(data));
 
-            if (str.length > 4095) {
+            if (str.length > 4093) {
                 throw new RangeError('Cookie size exceeds 4093 bytes');
             }
 
