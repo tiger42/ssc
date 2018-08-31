@@ -39,13 +39,11 @@ SSC.Date = {
         month = month == null ? new Date().getMonth() : month;
         year  = year == null ? new Date().getFullYear() : year;
 
-        let days;
         if (month == 1) {
-            days = SSC.Date.isLeapYear(year) ? 29 : 28;
-        } else {
-            days = month == 3 || month == 5 || month == 8 || month == 10 ? 30 : 31;
+            return SSC.Date.isLeapYear(year) ? 29 : 28;
         }
-        return days;
+
+        return month == 3 || month == 5 || month == 8 || month == 10 ? 30 : 31;
     },
 
     /**
@@ -351,7 +349,7 @@ SSC.Date = {
             L : (d) => SSC.Date.isLeapYear(d.getFullYear()) ? 1 : 0,
             o : (d) => {
                 let year = d.getFullYear();
-                const week = Number(code.W(d));
+                const week = +code.W(d);
                 return (week == 1 && d.getMonth() == 11) ? ++year :
                     (week >= 52 && d.getMonth() === 0) ? --year : year;
             },
