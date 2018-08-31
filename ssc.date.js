@@ -85,7 +85,7 @@ SSC.Date = {
      * </tr>
      * <tr valign="top">
      *     <td><i>N</i></td>
-     *     <td>ISO 8601 numeric representation of the day of the week</td>
+     *     <td>ISO-8601 numeric representation of the day of the week</td>
      *     <td><i>1</i> (for Monday) through <i>7</i> (for Sunday)</td>
      * </tr>
      * <tr valign="top">
@@ -110,7 +110,7 @@ SSC.Date = {
      * </tr>
      * <tr valign="top">
      *     <td><i>W</i></td>
-     *     <td>ISO 8601 week number of year with leading zeros, weeks starting on Monday</td>
+     *     <td>ISO-8601 week number of year, weeks starting on Monday</td>
      *     <td>Example: <i>42</i> (the 42nd week in the year)</td>
      * </tr>
      * <tr valign="top" style="background-color: #DDDDDD;">
@@ -120,7 +120,7 @@ SSC.Date = {
      * </tr>
      * <tr valign="top">
      *     <td><i>F</i></td>
-     *     <td>A full textual representation of a month</td>
+     *     <td>A full textual representation of a month, such as January or March</td>
      *     <td><i>January</i> through <i>December</i></td>
      * </tr>
      * <tr valign="top">
@@ -150,13 +150,13 @@ SSC.Date = {
      * </tr>
      * <tr valign="top">
      *     <td><i>L</i></td>
-     *     <td>Whether it is a leap year</td>
-     *     <td><i>1</i> if it is a leap year, <i>0</i> otherwise</td>
+     *     <td>Whether it's a leap year</td>
+     *     <td><i>1</i> if it is a leap year, <i>0</i> otherwise.</td>
      * </tr>
      * <tr valign="top">
      *     <td><i>o</i></td>
      *     <td>
-     *         ISO 8601 year number. This has the same value as
+     *         ISO-8601 week-numbering year. This has the same value as
      *         <i>Y</i>, except that if the ISO week number
      *         (<i>W</i>) belongs to the previous or next year, that year
      *         is used instead.
@@ -190,7 +190,7 @@ SSC.Date = {
      * </tr>
      * <tr valign="top">
      *     <td><i>B</i></td>
-     *     <td>Swatch Internet time (BMT)</td>
+     *     <td>Swatch Internet time</td>
      *     <td><i>000</i> through <i>999</i></td>
      * </tr>
      * <tr valign="top">
@@ -236,7 +236,7 @@ SSC.Date = {
      * <tr valign="top">
      *     <td><i>I</i> (capital&nbsp;'i')</td>
      *     <td>Whether or not the date is in daylight saving time</td>
-     *     <td><i>1</i> if daylight saving time, <i>0</i> otherwise</td>
+     *     <td><i>1</i> if daylight saving time, <i>0</i> otherwise.</td>
      * </tr>
      * <tr valign="top">
      *     <td><i>O</i></td>
@@ -263,7 +263,7 @@ SSC.Date = {
      * </tr>
      * <tr valign="top">
      *     <td><i>c</i></td>
-     *     <td>ISO 8601 date</td>
+     *     <td>ISO-8601 date</td>
      *     <td>Example: <i>2004-02-12T15:19:21+00:00</i></td>
      * </tr>
      * <tr valign="top">
