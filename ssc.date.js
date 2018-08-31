@@ -228,6 +228,11 @@ SSC.Date = {
      *     <td>Microseconds (the last 3 digits are always 000)</td>
      *     <td>Example: <i>654000</i></td>
      * </tr>
+     * <tr valign="top">
+     *     <td><i>v</i></td>
+     *     <td>Milliseconds</td>
+     *     <td>Example: <i>654</i></td>
+     * </tr>
      * <tr valign="top" style="background-color: #DDDDDD;">
      *     <td></td>
      *     <td align="center"><b><i>Timezone</i></b></td>
@@ -373,8 +378,9 @@ SSC.Date = {
             H : (d) => (hour = d.getHours()) < 10 ? '0' + hour : hour,
             i : (d) => (min = d.getMinutes()) < 10 ? '0' + min : min,
             s : (d) => (sec = d.getSeconds()) < 10 ? '0' + sec : sec,
-            u : (d) => ((ms = d.getMilliseconds()) < 10 ? '00' + ms
-                    : (ms < 100 ? '0' + ms : ms)) + '000',
+            u : (d) => code.v(d) + '000',
+            v : (d) => ((ms = d.getMilliseconds()) < 10 ? '00' + ms
+                    : (ms < 100 ? '0' + ms : ms)),
 
             // Timezone
             //e : (d) => '',   // not supported (timezone identifier)
