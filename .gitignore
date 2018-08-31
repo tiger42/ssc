@@ -6,3 +6,5 @@ bin/
 .project
 .settings/
 
+# Visual Studio Code IDE
+.vscode/
