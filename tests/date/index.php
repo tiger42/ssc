@@ -7,7 +7,7 @@
         1009713600, 1041336000, 1041768000, 1041854400, 1041249600, 1041163200,
         585266400, 949456922, 1075860264, 1013602393];
     $codes = ['d', 'D', 'j', 'l', 'N', 'S', 'w', 'z', 'W', 'F', 'm', 'M', 'n',
-        't', 'L', 'o', 'Y', 'y', 'a', 'A', 'B', 'g', 'G', 'h', 'H', 'i', 's', 'u',
+        't', 'L', 'o', 'Y', 'y', 'a', 'A', 'B', 'g', 'G', 'h', 'H', 'i', 's', 'u', /*'v',*/
         /*'e',*/ 'I', 'O', 'P', /*'T',*/ 'Z', 'c', 'r', 'U'];
 ?>
 <!DOCTYPE html>
@@ -19,23 +19,25 @@
 
     <script type="text/javascript">
         function run() {
+            'use strict';
+
             document.open();
             document.write('<h2>Date</h2>');
             document.write('<pre>');
 
             document.write('<table border="1" cellspacing="0" cellpadding="2"><tr><th>Timestamp</th>');
             <?php foreach ($codes as $code): ?>
-                document.write('<th><?php echo $code ?></th>')
+                document.write('<th><?= $code ?></th>')
             <?php endforeach ?>
             let tstamp, formatted;
             try {
                 <?php foreach ($tstamps as $tstamp): ?>
                     <?php $msecs = sprintf('%03d', rand(0, 999)); ?>
-                    tstamp = <?php echo $tstamp . $msecs?>;
+                    tstamp = <?= $tstamp . $msecs ?>;
                     document.write('<tr>');
                     document.write('<td>' + tstamp + '</td>');
                     <?php foreach ($codes as $code): ?>
-                        formatted = SSC.Date.format(new Date(tstamp), '<?php echo $code ?>');
+                        formatted = SSC.Date.format(new Date(tstamp), '<?= $code ?>');
                         document.write('<td style="white-space: nowrap;">');
                         SSC.Test.assertSame('<?php
                             $d = new DateTime(date('Y-m-d H:i:s.' . $msecs, $tstamp));
@@ -45,8 +47,20 @@
                     <?php endforeach ?>
                     document.write('</tr>');
                 <?php endforeach ?>
-                document.write('</table>');
+                document.write('</table><br>');
 
+                <?php
+                    $now = time();
+                    $format = '\T\o\d\a\y \i\s l, \t\h\e jS \o\f F Y. \T\h\e \c\u\r\r\e\n\t \t\i\m\e \i\s h:i:s A.';
+                    $today = date($format, $now);
+                    $formatJS = str_replace('\\', '\\\\', $format);
+                ?>
+                const now = '<?= $now ?>';
+                const format = '<?= $formatJS ?>';
+                formatted = SSC.Date.format(new Date(now * 1000), format);
+                SSC.Test.assertSame('<?= $today ?>', formatted, formatted);
+
+                document.write('<br>');
                 SSC.Test.writeTestResult();
             } catch (e) {
                 document.write('</td></tr></table>');

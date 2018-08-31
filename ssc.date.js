@@ -48,6 +48,7 @@ SSC.Date = {
     /**
      * Format a date according to the given format string.<br />
      * The accepted format characters are mainly the same as for the "date" command in PHP.<br />
+     * Use <b>\\</b> to escape letters from being interpreted (see example).<br />
      * <b>NOTE:</b> The format characters <i>e</i> and <i>T</i> are not supported by this function yet!
      * <br /><br />
      * <table style="border: 1px solid #AAAAAA;">
@@ -277,6 +278,13 @@ SSC.Date = {
      * </table>
      * @function
      *
+     * @example
+     * console.log(SSC.Date.format(new Date(), 'Y-m-d H:i:s'));
+     * // Example output: 2018-07-09 15:33:24
+     *
+     * console.log(SSC.Date.format(new Date(), '\\T\\o\\d\\a\\y \\i\\s l, \\t\\h\\e jS \\o\\f F Y. \\T\\h\\e \\c\\u\\r\\r\\e\\n\\t \\t\\i\\m\\e \\i\\s h:i:s A.'));
+     * // Example output: Today is Friday, the 31st of August 2018. The current time is 09:46:02 PM.
+     *
      * @param   {Date} date                 The Date object to get the date/time from
      * @param   {string} format             The format string
      * @return  {string}                    The formatted date/time
@@ -403,18 +411,6 @@ SSC.Date = {
             U : (d) => Math.floor(d.getTime() / 1000)
         };
 
-        return ((date, format) => {
-            let c;
-            let str = '';
-            for (let i = 0, len = format.length; i < len; i++) {
-                c = format.charAt(i);
-                if (code.hasOwnProperty(c)) {
-                    str += code[c](date);
-                } else {
-                    str += c;
-                }
-            }
-            return str;
-        });
+        return (date, format) => format.replace(/(\\?)(.)/g, (match, p1, p2) => code.hasOwnProperty(match) ? code[match](date) : p2);
     })()
 };
