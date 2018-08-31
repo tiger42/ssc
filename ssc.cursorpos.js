@@ -1,34 +1,38 @@
 /**
- * @file    An observable module for acquiring the current mouse cursor coordinates.
- * @author  Marc-Oliver Stühmer <marc-oliver@stuehmer.info>
+ * @file An observable module for acquiring the current mouse cursor coordinates.
+ * @author Marc-Oliver Stühmer <marc-oliver@stuehmer.info>
  */
 
 /**
  * Cursor coordinates object.
  *
- * @typedef     Coordinates
- * @property    {number} x              The X-coordinate
- * @property    {number} y              The Y-coordinate
+ * @typedef Coordinates
+ *
+ * @property {number} x  The X-coordinate
+ * @property {number} y  The Y-coordinate
  */
 
 /**
  * Callback function to be executed when the mouse cursor position changes.
  *
- * @callback    mouseMoveObserverFn
- * @param       {Coordinates} coords    The current mouse cursor coordinates
+ * @callback mouseMoveObserverFn
+ *
+ * @param {Coordinates} coords  The current mouse cursor coordinates
  */
 
  /**
   * Observer object to be notified when the mouse cursor position changes.
   *
-  * @typedef    {Object} MouseMoveObserver
-  * @property   {mouseMoveObserverFn} notify  The observer callback function
+  * @typedef {Object} MouseMoveObserver
+  *
+  * @property {mouseMoveObserverFn} notify  The observer callback function
   */
 
 window.SSC = window.SSC || {};
 
 /**
  * An observable module for acquiring the current mouse cursor coordinates.
+ *
  * @namespace
  *
  * @example
@@ -45,23 +49,28 @@ SSC.CursorPos = (() => {
 
     /**
      * Has this module already been initialized?
+     *
      * @private
-     * @type    {boolean}
+     *
+     * @type {boolean}
      */
     let inited = false;
 
     /**
      * The set of registered observers.
-     * @private 
-     * @type    {Set.<Function>}
+     *
+     * @private
+     * 
+     * @type {Set.<Function>}
      */
     const observers = new Set();
 
     /**
      * Set the cursor coordinates.
+     *
      * @private
      *
-     * @param   {MouseEvent} ev             The calling event
+     * @param {MouseEvent} ev  The calling event
      */
     const setCoords = (coords) => {
          SSC.CursorPos.x = coords.x;
@@ -70,9 +79,10 @@ SSC.CursorPos = (() => {
 
     /**
      * Notify all registered observers.
+     *
      * @private
      *
-     * @param   {MouseEvent} ev             The calling event
+     * @param {MouseEvent} ev  The calling event
      */
     const notifyObservers = (ev) => {
         observers.forEach((observer) => {
@@ -87,13 +97,15 @@ SSC.CursorPos = (() => {
     return /** @lends SSC.CursorPos */ {
         /**
          * The X value of the current cursor position.
-         * @type    {number}
+         *
+         * @type {number}
          */
         x : null,
 
         /**
          * The Y value of the current cursor position.
-         * @type    {number}
+         *
+         * @type {number}
          */
         y : null,
 
@@ -116,8 +128,9 @@ SSC.CursorPos = (() => {
          * Fetch the mouse cursor coordinates from the given mouse event.<br />
          * <b>NOTE:</b> The module does not need to be init'ed to use this function.
          *
-         * @param   {MouseEvent} ev             The mouse event to read the coordinates from
-         * @return  {Coordinates}               The mouse cursor coordinates
+         * @param {MouseEvent} ev  The mouse event to read the coordinates from
+         *
+         * @return {Coordinates}  The mouse cursor coordinates
          */
         getFromEvent : (ev) => ({
             x : ev.pageX,
@@ -127,8 +140,8 @@ SSC.CursorPos = (() => {
         /**
          * Add an observer function or object.
          *
-         * @param   {mouseMoveObserverFn|MouseMoveObserver} observer  The observer to be notified
-         *                                                            when the cursor position changes
+         * @param {mouseMoveObserverFn|MouseMoveObserver} observer  The observer to be notified
+         *                                                          when the cursor position changes
          */
         addObserver : (observer) => {
             observers.add(observer);
@@ -137,7 +150,7 @@ SSC.CursorPos = (() => {
         /**
          * Remove the given observer from the observer list.
          *
-         * @param   {mouseMoveObserverFn|MouseMoveObserver} observer  The observer function or object to remove
+         * @param {mouseMoveObserverFn|MouseMoveObserver} observer  The observer function or object to remove
          */
         removeObserver : (observer) => {
             observers.delete(observer);

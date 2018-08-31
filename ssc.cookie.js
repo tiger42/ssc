@@ -1,15 +1,16 @@
 /**
- * @file    Cookie handling class.
- * @author  Marc-Oliver Stühmer <marc-oliver@stuehmer.info>
+ * @file Cookie handling class.
+ * @author Marc-Oliver Stühmer <marc-oliver@stuehmer.info>
  */
 
 window.SSC = window.SSC || {};
 
 /**
  * <b>NOTE:</b> The cookie cannot be instantiated directly! Use [SSC.Cookie.getInstance()]{@link SSC.Cookie.getInstance} instead.
+ *
  * @class
- * @classdesc   Cookie handling class.
- * @see         SSC.Cookie.getInstance
+ * @classdesc Cookie handling class.
+ * @see SSC.Cookie.getInstance
  *
  * @example
  * const cookie = SSC.Cookie.getInstance('testcookie');
@@ -25,65 +26,81 @@ SSC.Cookie = (() => {
 
     /**
      * Container object with Singleton instances of Cookie class
+     *
      * @private
-     * @type    {Object}
+     *
+     * @type {Object}
      */
     const instances = {};
 
     /**
      * The actual cookie class.
+     *
      * @private
      *
-     * @param   {string} [cookieName]       The name of the cookie
+     * @param {string} [cookieName]  The name of the cookie
      */
     const Cookie = function (cookieName) {
         /**
          * The current cookie name
+         *
          * @private
-         * @type    {string}
+         *
+         * @type {string}
          */
         let cname = cookieName;
 
         /**
          * The cookie's data
+         *
          * @private
-         * @type    {Object}
+         *
+         * @type {Object}
          */
         let data = {};
 
         /**
          * The cookie's expiry time
+         *
          * @private
-         * @type    {string}
+         *
+         * @type {string}
          */
         let expires;
 
         /**
          * The path for which the cookie is active
+         *
          * @private
-         * @type    {string}
+         *
+         * @type {string}
          */
         let path = '/';
 
         /**
          * The cookie domain
+         *
          * @private
-         * @type    {string}
+         *
+         * @type {string}
          */
         let domain;
 
         /**
          * Use SSL when sending the cookie to the server?
+         *
          * @private
-         * @type    {boolean}
+         *
+         * @type {boolean}
          */
         let sec = false;
 
         /**
          * Write the internal data object into the document cookie.
+         *
          * @private
          *
-         * @throws  {RangeError}                If the cookie size exceeds 4093 bytes
+         * @throws {RangeError}  If the cookie size exceeds 4093 bytes
          */
         const write = () => {
             let str = cname + '=' + encodeURIComponent(JSON.stringify(data));
@@ -107,9 +124,10 @@ SSC.Cookie = (() => {
 
         /**
          * Read the document cookie into the internal data object.
+         *
          * @private
          *
-         * @return  {boolean}                   Was the operation successful?
+         * @return {boolean}  Was the operation successful?
          */
         const read = () => {
             let start;
@@ -133,9 +151,10 @@ SSC.Cookie = (() => {
 
         /**
          * Persist the set data and all settings into the document cookie.
-         * @method      write
+         *
+         * @method write
          * @instance
-         * @memberOf    SSC.Cookie
+         * @memberOf SSC.Cookie
          */
         this.write = () => {
             write();
@@ -143,12 +162,14 @@ SSC.Cookie = (() => {
 
         /**
          * Retrieve the value for the given key.
-         * @method      get
-         * @instance
-         * @memberOf    SSC.Cookie
          *
-         * @param   {string} key                The key to get the value for
-         * @return  {mixed|undefined}           The value for the given key
+         * @method get
+         * @instance
+         * @memberOf SSC.Cookie
+         *
+         * @param {string} key  The key to get the value for
+         *
+         * @return {mixed|undefined}  The value for the given key
          */
         this.get = (key) => {
             if (typeof key == 'string') {
@@ -160,14 +181,17 @@ SSC.Cookie = (() => {
         /**
          * Set the value of the given key.<br />
          * Call the [write()]{@link SSC.Cookie#write} function to persist the data into the document cookie.
-         * @method      set
-         * @instance
-         * @memberOf    SSC.Cookie
          *
-         * @param   {string} key                The key to set the value of
-         * @param   {mixed} value               The value to set
-         * @return  {SSC.Cookie}                The Cookie object (for method chaining)
-         * @throws  {TypeError}                 If "key" is not a string or "value" is undefined
+         * @method set
+         * @instance
+         * @memberOf SSC.Cookie
+         *
+         * @param {string} key    The key to set the value of
+         * @param {mixed}  value  The value to set
+         *
+         * @return {SSC.Cookie}  The Cookie object (for method chaining)
+         *
+         * @throws {TypeError}  If "key" is not a string or "value" is undefined
          */
         this.set = (key, value) => {
             if (typeof key != 'string') {
@@ -185,12 +209,14 @@ SSC.Cookie = (() => {
         /**
          * Remove the element with the given key.<br />
          * Call the [write()]{@link SSC.Cookie#write} function to persist the data into the document cookie.
-         * @method      remove
-         * @instance
-         * @memberOf    SSC.Cookie
          *
-         * @param   {string} key                The key of the element to remove
-         * @return  {mixed|undefined}           The value of the removed element
+         * @method remove
+         * @instance
+         * @memberOf SSC.Cookie
+         *
+         * @param {string} key  The key of the element to remove
+         *
+         * @return {mixed|undefined}  The value of the removed element
          */
         this.remove = (key) => {
             if (typeof key == 'string') {
@@ -204,11 +230,12 @@ SSC.Cookie = (() => {
 
         /**
          * Return all cookie data as an object.
-         * @method      getAll
-         * @instance
-         * @memberOf    SSC.Cookie
          *
-         * @return  {Object}                    The cookie's data
+         * @method getAll
+         * @instance
+         * @memberOf SSC.Cookie
+         *
+         * @return {Object}  The cookie's data
          */
         this.getAll = () => {
             return data;
@@ -218,12 +245,14 @@ SSC.Cookie = (() => {
          * Set the cookie's expiry time in RFC-2822 format (DAY, DD MMM YYYY hh:mm:ss GMT) or
          * from an instantiated Date object (defaults to end of session).<br />
          * Call the [write()]{@link SSC.Cookie#write} function to persist the setting into the document cookie.
-         * @method      setExpiry
-         * @instance
-         * @memberOf    SSC.Cookie
          *
-         * @param   {string|Date} expiry        The expiry time to set
-         * @return  {SSC.Cookie}                The Cookie object (for method chaining)
+         * @method setExpiry
+         * @instance
+         * @memberOf SSC.Cookie
+         *
+         * @param {string|Date} expiry  The expiry time to set
+         *
+         * @return {SSC.Cookie}  The Cookie object (for method chaining)
          */
         this.setExpiry = (expiry) => {
             if (Object.prototype.toString.call(expiry) == '[object Date]') {
@@ -237,12 +266,14 @@ SSC.Cookie = (() => {
         /**
          * Set the expiry time as Unix timestamp.<br />
          * Call the [write()]{@link SSC.Cookie#write} function to persist the setting into the document cookie.
-         * @method      setExpiryTimestamp
-         * @instance
-         * @memberOf    SSC.Cookie
          *
-         * @param   {number} expiry             The expiry time to set
-         * @return  {SSC.Cookie}                The Cookie object (for method chaining)
+         * @method setExpiryTimestamp
+         * @instance
+         * @memberOf SSC.Cookie
+         *
+         * @param {number} expiry  The expiry time to set
+         *
+         * @return {SSC.Cookie}  The Cookie object (for method chaining)
          */
         this.setExpiryTimestamp = (expiry) => {
             this.setExpiry(new Date(expiry * 1000));
@@ -253,12 +284,14 @@ SSC.Cookie = (() => {
         /**
          * Set the path for which the cookie is active (defaults to "/").<br />
          * Call the [write()]{@link SSC.Cookie#write} function to persist the setting into the document cookie.
-         * @method      setPath
-         * @instance
-         * @memberOf    SSC.Cookie
          *
-         * @param   {string} cookiePath         The path to set
-         * @return  {SSC.Cookie}                The Cookie object (for method chaining)
+         * @method setPath
+         * @instance
+         * @memberOf SSC.Cookie
+         *
+         * @param {string} cookiePath  The path to set
+         *
+         * @return {SSC.Cookie}  The Cookie object (for method chaining)
          */
         this.setPath = (cookiePath) => {
             path = cookiePath;
@@ -269,12 +302,14 @@ SSC.Cookie = (() => {
         /**
          * Set the cookie domain (defaults to current domain).<br />
          * Call the [write()]{@link SSC.Cookie#write} function to persist the setting into the document cookie.
-         * @method      setDomain
-         * @instance
-         * @memberOf    SSC.Cookie
          *
-         * @param   {string} cookieDomain       The domain to set
-         * @return  {SSC.Cookie}                The Cookie object (for method chaining)
+         * @method setDomain
+         * @instance
+         * @memberOf SSC.Cookie
+         *
+         * @param {string} cookieDomain  The domain to set
+         *
+         * @return {SSC.Cookie}  The Cookie object (for method chaining)
          */
         this.setDomain = (cookieDomain) => {
             domain = cookieDomain;
@@ -285,12 +320,14 @@ SSC.Cookie = (() => {
         /**
          * Set secure mode (SSL) when sending the cookie to the server (defaults to false).<br />
          * Call the [write()]{@link SSC.Cookie#write} function to persist the setting into the document cookie.
-         * @method      setSecure
-         * @instance
-         * @memberOf    SSC.Cookie
          *
-         * @param   {boolean} [secure=true]     Use secure mode?
-         * @return  {SSC.Cookie}                The Cookie object (for method chaining)
+         * @method setSecure
+         * @instance
+         * @memberOf SSC.Cookie
+         *
+         * @param {boolean} [secure=true]  Use secure mode?
+         *
+         * @return {SSC.Cookie}  The Cookie object (for method chaining)
          */
         this.setSecure = (secure = true) => {
             sec = secure;
@@ -300,9 +337,10 @@ SSC.Cookie = (() => {
 
         /**
          * Delete the cookie.
-         * @method      destroy
+         *
+         * @method destroy
          * @instance
-         * @memberOf    SSC.Cookie
+         * @memberOf SSC.Cookie
          */
         this.destroy = () => {
             this.setExpiry('Tue, 01 Jan 2008 00:00:00 GMT');
@@ -318,8 +356,9 @@ SSC.Cookie = (() => {
         /**
          * Get Singleton instance of Cookie, depending on the given name.
          *
-         * @param   {string} [name=sscdata]     The name of the cookie
-         * @return  {SSC.Cookie}                Singleton instance of Cookie class
+         * @param {string} [name=sscdata]  The name of the cookie
+         *
+         * @return {SSC.Cookie}  Singleton instance of Cookie class
          */
         getInstance : (name = 'sscdata') => {
             if (!instances[name]) {
@@ -331,7 +370,7 @@ SSC.Cookie = (() => {
         /**
          * Test whether the user's browser accepts cookies.
          *
-         * @return  {boolean}                   Are cookies allowed?
+         * @return {boolean}  Are cookies allowed?
          */
         isWritable : () => {
             if (typeof document.cookie != 'string') {

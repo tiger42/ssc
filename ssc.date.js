@@ -1,12 +1,13 @@
 /**
- * @file     A collection of date related functions.
- * @author   Marc-Oliver Stühmer <marc-oliver@stuehmer.info>
+ * @file A collection of date related functions.
+ * @author Marc-Oliver Stühmer <marc-oliver@stuehmer.info>
  */
 
 window.SSC = window.SSC || {};
 
 /**
  * A collection of date related functions.
+ *
  * @namespace
  */
 SSC.Date = {
@@ -14,8 +15,9 @@ SSC.Date = {
      * Determine whether the given year is a leap year.<br />
      * If no year is given, the current year is used.
      *
-     * @param   {number} [year]             The year to test (4 digit format)
-     * @return  {boolean}                   Is the year a leap year?
+     * @param {number} [year]  The year to test (4 digit format)
+     *
+     * @return {boolean}  Is the year a leap year?
      */
     isLeapYear : (year) => {
         year = year == null ? new Date().getFullYear() : year;
@@ -28,9 +30,10 @@ SSC.Date = {
      * If no month/year is given, the current month/year is used.<br />
      * <b>NOTE:</b> The months are counted from 0 to 11, i.e. January = 0, February = 1 etc.
      *
-     * @param   {number} [month]            The month to determine the number of days of
-     * @param   {number} [year]             The month's year (4 digit format)
-     * @return  {number}                    The calculated number of days
+     * @param {number} [month]  The month to determine the number of days of
+     * @param {number} [year]   The month's year (4 digit format)
+     *
+     * @return {number}  The calculated number of days
      */
     getDaysOfMonth : (month, year) => {
         month = month == null ? new Date().getMonth() : month;
@@ -276,6 +279,7 @@ SSC.Date = {
      *     <td>Example: <i>1276782742</i></td>
      * </tr>
      * </table>
+     *
      * @function
      *
      * @example
@@ -285,9 +289,10 @@ SSC.Date = {
      * console.log(SSC.Date.format(new Date(), '\\T\\o\\d\\a\\y \\i\\s l, \\t\\h\\e jS \\o\\f F Y. \\T\\h\\e \\c\\u\\r\\r\\e\\n\\t \\t\\i\\m\\e \\i\\s h:i:s A.'));
      * // Example output: Today is Friday, the 31st of August 2018. The current time is 09:46:02 PM.
      *
-     * @param   {Date} date                 The Date object to get the date/time from
-     * @param   {string} format             The format string
-     * @return  {string}                    The formatted date/time
+     * @param {Date}   date    The Date object to get the date/time from
+     * @param {string} format  The format string
+     *
+     * @return {string}  The formatted date/time
      */
     format : (() => {
         const wdays  = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
