@@ -8,7 +8,7 @@
         585266400, 949456922, 1075860264, 1013602393];
     $codes = ['d', 'D', 'j', 'l', 'N', 'S', 'w', 'z', 'W', 'F', 'm', 'M', 'n',
         't', 'L', 'o', 'Y', 'y', 'a', 'A', 'B', 'g', 'G', 'h', 'H', 'i', 's', 'u', 'v',
-        /*'e',*/ 'I', 'O', 'P', /*'T',*/ 'Z', 'c', 'r', 'U'];
+        'e', 'I', 'O', 'P', 'T', 'Z', 'c', 'r', 'U'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -39,10 +39,14 @@
                     <?php foreach ($codes as $code): ?>
                         formatted = SSC.Date.format(new Date(tstamp), '<?= $code ?>');
                         document.write('<td style="white-space: nowrap;">');
-                        SSC.Test.assertSame('<?php
-                            $d = new DateTime(date('Y-m-d H:i:s.' . $msecs, $tstamp));
-                            echo $d->format($code);
-                        ?>', formatted, formatted);
+                        if ('<?= $code ?>' == 'T') {
+                            SSC.Test.assert(!!formatted.match(/^[A-Z]{2,5}($|([+-]\d+(:\d{2})?)$)/), formatted);
+                        } else {
+                            SSC.Test.assertSame('<?php
+                                $d = new DateTime(date('Y-m-d H:i:s.' . $msecs, $tstamp));
+                                echo $d->format($code);
+                            ?>', formatted, formatted);
+                        }
                         document.write('</td>');
                     <?php endforeach ?>
                     document.write('</tr>');

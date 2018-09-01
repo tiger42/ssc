@@ -48,9 +48,8 @@ SSC.Date = {
 
     /**
      * Format a date according to the given format string.<br />
-     * The accepted format characters are mainly the same as for the "date" command in PHP.<br />
+     * The accepted format characters are the same as for the "date" command in PHP.<br />
      * Use <b>\\</b> to escape letters from being interpreted (see example).<br />
-     * <b>NOTE:</b> The format characters <i>e</i> and <i>T</i> are not supported by this function yet!
      * <br /><br />
      * <table style="border: 1px solid #AAAAAA;">
      * <tr valign="middle" style="color: #FFFFFF; background-color: #AAAAAA;">
@@ -239,6 +238,11 @@ SSC.Date = {
      *     <td></td>
      * </tr>
      * <tr valign="top">
+     *     <td><i>e</i></td>
+     *     <td>Timezone identifier</td>
+     *     <td>Examples: <i>Europe/Berlin</i> or <i>Atlantic/Azores</i></td>
+     * </tr>
+     * <tr valign="top">
      *     <td><i>I</i> (capital&nbsp;'i')</td>
      *     <td>Whether or not the date is in daylight saving time</td>
      *     <td><i>1</i> if daylight saving time, <i>0</i> otherwise.</td>
@@ -252,6 +256,11 @@ SSC.Date = {
      *     <td><i>P</i></td>
      *     <td>Difference to Greenwich time (GMT) with colon between hours and minutes</td>
      *     <td>Example: <i>+02:00</i></td>
+     * </tr>
+     * <tr valign="top">
+     *     <td><i>T</i></td>
+     *     <td>Timezone abbreviation</td>
+     *     <td>Examples: <i>EST, MDT</i></td>
      * </tr>
      * <tr valign="top">
      *     <td><i>Z</i></td>
@@ -383,7 +392,7 @@ SSC.Date = {
                     : (ms < 100 ? '0' + ms : ms)),
 
             // Timezone
-            //e : (d) => '',   // not supported (timezone identifier)
+            e : (d) => Intl.DateTimeFormat().resolvedOptions().timeZone,
             I : (d) => {
                 const off6 = -new Date(d.getFullYear(), 6, 1).getTimezoneOffset();
                 const off0 = -new Date(d.getFullYear(), 0, 1).getTimezoneOffset();
@@ -411,11 +420,14 @@ SSC.Date = {
                 return (pos ? '+' : '-') + hour + ':' + min;
             },
 
-            //T : (d) => '',   // not suported (timezone abbreviation)
+            T : (d) => {
+                const tz = d.toLocaleTimeString(navigator.language, { timeZoneName : 'short' }).split(' ');
+                return tz[tz.length - 1];
+            },
             Z : (d) => -d.getTimezoneOffset() * 60,
 
             // Full Date/Time
-            c : (d) => SSC.Date.format(d, 'Y-m-dTH:i:sP'),
+            c : (d) => SSC.Date.format(d, 'Y-m-d\\TH:i:sP'),
             r : (d) => SSC.Date.format(d, 'D, d M Y H:i:s O'),
             U : (d) => Math.floor(d.getTime() / 1000)
         };

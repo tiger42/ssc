@@ -31,9 +31,7 @@ SSC.Test = (() => {
             return expr && ok() || fail();
         },
 
-        assertSame : (expected, actual, desc) => {
-            return SSC.Test.assert(expected === actual, desc);
-        },
+        assertSame : (expected, actual, desc) => SSC.Test.assert(expected === actual, desc),
 
         writeTestResult : () => {
             document.write('<br /><hr />');
