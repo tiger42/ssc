@@ -1,5 +1,5 @@
 /**
- * @file Cookie handling class.
+ * @file A Singleton wrapper for the document cookie.
  * @author Marc-Oliver Stühmer <marc-oliver@stuehmer.info>
  */
 
@@ -9,7 +9,7 @@ window.SSC = window.SSC || {};
  * <b>NOTE:</b> The cookie cannot be instantiated directly! Use [SSC.Cookie.getInstance()]{@link SSC.Cookie.getInstance} instead.
  *
  * @class
- * @classdesc Cookie handling class.
+ * @classdesc A Singleton wrapper for the document cookie.
  * @see SSC.Cookie.getInstance
  *
  * @example
