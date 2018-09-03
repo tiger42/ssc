@@ -7,7 +7,7 @@
     "source": {
         "includePattern": "ssc\\..+\\.js$",
         "excludePattern": "(^|\\/|\\\\)_",
-        "include" : ["./", "README.md"]
+        "include" : ["./", "./README.md"]
     },
     "sourceType": "module",
     "tags": {
@@ -16,6 +16,9 @@
     },
     "templates": {
         "cleverLinks": false,
+        "default" : {
+            "layoutFile": "./layout.tmpl"
+        },
         "monospaceLinks": false
     }
 }
