@@ -4,6 +4,10 @@
     <meta charset="utf-8">
     <title>JSDoc: SSCjs - <?js= title ?></title>
 
+    <?js if (process.env.GOOGLE_SITE_VERIFICATION) { ?>
+        <meta name="google-site-verification" content="<?js= process.env.GOOGLE_SITE_VERIFICATION ?>">
+    <?js } ?>
+
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
     <!--[if lt IE 9]>
