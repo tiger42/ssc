@@ -1,6 +1,8 @@
 /**
  * @file A Singleton wrapper for the document cookie.
- * @author Marc-Oliver Stühmer <marc-oliver@stuehmer.info>
+ * @author Marc-Oliver Stühmer <stuehmer@codefoo.org>
+ * @license MIT
+ * @copyright 2019 Marc-Oliver Stühmer
  */
 
 window.SSC = window.SSC || {};

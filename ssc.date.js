@@ -1,6 +1,8 @@
 /**
  * @file A collection of date related functions.
- * @author Marc-Oliver Stühmer <marc-oliver@stuehmer.info>
+ * @author Marc-Oliver Stühmer <stuehmer@codefoo.org>
+ * @license MIT
+ * @copyright 2019 Marc-Oliver Stühmer
  */
 
 window.SSC = window.SSC || {};

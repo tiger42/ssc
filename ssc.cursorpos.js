@@ -1,6 +1,8 @@
 /**
  * @file An observable module for acquiring the current mouse cursor coordinates.
- * @author Marc-Oliver Stühmer <marc-oliver@stuehmer.info>
+ * @author Marc-Oliver Stühmer <stuehmer@codefoo.org>
+ * @license MIT
+ * @copyright 2019 Marc-Oliver Stühmer
  */
 
 /**
