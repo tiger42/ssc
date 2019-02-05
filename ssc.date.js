@@ -434,6 +434,6 @@ SSC.Date = {
             U : (d) => Math.floor(d.getTime() / 1000)
         };
 
-        return (date, format) => format.replace(/(\\?)(.)/g, (match, p1, p2) => code.hasOwnProperty(match) ? code[match](date) : p2);
+        return (date, format) => format.replace(/\\?(.)/g, (match, c) => code.hasOwnProperty(match) ? code[match](date) : c);
     })()
 };
