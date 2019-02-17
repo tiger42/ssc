@@ -262,7 +262,7 @@ SSC.Date = {
      * <tr valign="top">
      *     <td><i>T</i></td>
      *     <td>Timezone abbreviation</td>
-     *     <td>Examples: <i>EST, MDT</i></td>
+     *     <td>Examples: <i>AST, GMT+2</i></td>
      * </tr>
      * <tr valign="top">
      *     <td><i>Z</i></td>
@@ -312,11 +312,13 @@ SSC.Date = {
         const wdays  = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-        let ms, sec, min, hour, wday, day, mon;
+        let wday, day;
+
+        const zeropad = (num, digits = 2) => digits - (num + '').length <= 0 ? num : zeropad('0' + num, digits);
 
         const code = {
             // Day
-            d : (d) => (day = d.getDate()) < 10 ? '0' + day : day,
+            d : (d) => zeropad(d.getDate()),
             D : (d) => wdays[d.getDay()].substr(0, 3),
             j : (d) => d.getDate(),
             l : (d) => wdays[d.getDay()],
@@ -337,11 +339,9 @@ SSC.Date = {
             // Week
             W : (d) => {
                 const getDay1 = (year) => code.N(new Date(year, 0, 1)) - 1;
-
                 const year = d.getFullYear();
                 const day1 = getDay1(year);
                 let week;
-
                 const days = day1 > 3 ? code.z(d) - (7 - day1) : code.z(d) + day1;
                 if (days < 0) {
                     week = day1 == 4 || getDay1(year - 1) == 3 ? 53 : 52;
@@ -351,12 +351,12 @@ SSC.Date = {
                         week = day1 == 3 || getDay1(year + 1) == 4 ? 53 : 1;
                     }
                 }
-                return week < 10 ? '0' + week : week;
+                return zeropad(week);
             },
 
             // Month
             F : (d) => months[d.getMonth()],
-            m : (d) => (mon = d.getMonth() + 1) < 10 ? '0' + mon : mon,
+            m : (d) => zeropad(d.getMonth() + 1),
             M : (d) => months[d.getMonth()].substr(0, 3),
             n : (d) => d.getMonth() + 1,
             t : (d) => SSC.Date.getDaysOfMonth(d.getMonth(), d.getFullYear()),
@@ -381,17 +381,16 @@ SSC.Date = {
                 if (b > 999) {
                     b -= 1000;
                 }
-                return b < 10 ? '00' + b : (b < 100 ? '0' + b : b);
+                return zeropad(b, 3);
             },
             g : (d) => d.getHours() % 12 || 12,
             G : (d) => d.getHours(),
-            h : (d) => (hour = d.getHours() % 12 || 12) < 10 ? '0' + hour : hour,
-            H : (d) => (hour = d.getHours()) < 10 ? '0' + hour : hour,
-            i : (d) => (min = d.getMinutes()) < 10 ? '0' + min : min,
-            s : (d) => (sec = d.getSeconds()) < 10 ? '0' + sec : sec,
+            h : (d) => zeropad(d.getHours() % 12 || 12),
+            H : (d) => zeropad(d.getHours()),
+            i : (d) => zeropad(d.getMinutes()),
+            s : (d) => zeropad(d.getSeconds()),
             u : (d) => code.v(d) + '000',
-            v : (d) => ((ms = d.getMilliseconds()) < 10 ? '00' + ms
-                    : (ms < 100 ? '0' + ms : ms)),
+            v : (d) => zeropad(d.getMilliseconds(), 3),
 
             // Timezone
             e : (d) => Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -411,21 +410,12 @@ SSC.Date = {
                 let offset = d.getTimezoneOffset() / 60;
                 const pos = offset <= 0;
                 offset = Math.abs(offset);
-                let hour = Math.floor(offset);
-                if (hour < 10) {
-                    hour = '0' + hour;
-                }
-                let min = (offset - hour) * 60;
-                if (min < 10) {
-                    min = '0' + min;
-                }
-                return (pos ? '+' : '-') + hour + ':' + min;
+                const hour = Math.floor(offset);
+                const min = (offset - hour) * 60;
+                return (pos ? '+' : '-') + zeropad(hour) + ':' + zeropad(min);
             },
 
-            T : (d) => {
-                const tz = d.toLocaleTimeString(navigator.language, { timeZoneName : 'short' }).split(' ');
-                return tz[tz.length - 1];
-            },
+            T : (d) => d.toLocaleTimeString('en-US', { timeZoneName : 'short' }).split(' ').pop(),
             Z : (d) => -d.getTimezoneOffset() * 60,
 
             // Full Date/Time
