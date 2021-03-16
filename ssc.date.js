@@ -322,14 +322,9 @@ SSC.Date = {
             j: (d) => d.getDate(),
             l: (d) => wdays[d.getDay()],
             N: (d) => ((wday = d.getDay()) === 0 ? 7 : wday),
-            S: (d) =>
-                (day = d.getDate()) == 1 || day == 21 || day == 31
-                    ? 'st'
-                    : day == 2 || day == 22
-                    ? 'nd'
-                    : day == 3 || day == 23
-                    ? 'rd'
-                    : 'th',
+            S : (d) => (day = d.getDate()) == 1 || day == 21 || day == 31 ? 'st'
+                    : (day == 2 || day == 22 ? 'nd'
+                        : (day == 3 || day == 23 ? 'rd' : 'th')),
             w: (d) => d.getDay(),
             z: (d) => {
                 const year = d.getYear();
@@ -370,11 +365,8 @@ SSC.Date = {
             o: (d) => {
                 let year = d.getFullYear();
                 const week = +code.W(d);
-                return week == 1 && d.getMonth() == 11
-                    ? ++year
-                    : week >= 52 && d.getMonth() === 0
-                    ? --year
-                    : year;
+                return (week == 1 && d.getMonth() == 11) ? ++year :
+                    (week >= 52 && d.getMonth() === 0) ? --year : year;
             },
             Y: (d) => d.getFullYear(),
             y: (d) => (d.getFullYear() + '').substr(2, 2),
