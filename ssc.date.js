@@ -21,8 +21,8 @@ SSC.Date = {
      *
      * @return {boolean}  Is the year a leap year?
      */
-    isLeapYear : (year = new Date().getFullYear()) =>
-        year % 4 === 0 && year % 100 !== 0 || year % 400 === 0,
+    isLeapYear: (year = new Date().getFullYear()) =>
+        (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0,
 
     /**
      * Determine the number of days of the given month in the given year.<br />
@@ -34,9 +34,10 @@ SSC.Date = {
      *
      * @return {number}  The calculated number of days
      */
-    getDaysOfMonth : (month = new Date().getMonth(), year = new Date().getFullYear()) =>
+    getDaysOfMonth: (month = new Date().getMonth(), year = new Date().getFullYear()) =>
         month == 1
-            ? SSC.Date.isLeapYear(year) ? 29 : 28
+            ? SSC.Date.isLeapYear(year)
+                ? 29 : 28
             : month == 3 || month == 5 || month == 8 || month == 10
                 ? 30 : 31,
 
@@ -252,6 +253,11 @@ SSC.Date = {
      *     <td>Example: <i>+02:00</i></td>
      * </tr>
      * <tr valign="top">
+     *     <td><i>p</i></td>
+     *     <td>The same as P, but returns Z instead of +00:00</td>
+     *     <td>Example: <i>+02:00</i></td>
+     * </tr>
+     * <tr valign="top">
      *     <td><i>T</i></td>
      *     <td>Timezone abbreviation</td>
      *     <td>Examples: <i>AST, GMT+2</i></td>
@@ -300,26 +306,32 @@ SSC.Date = {
      *
      * @return {string}  The formatted date/time
      */
-    format : (() => {
-        const wdays  = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    format: (() => {
+        const wdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
         let wday, day;
 
-        const zeropad = (num, digits = 2) => digits - (num + '').length <= 0 ? num : zeropad('0' + num, digits);
+        const zeropad = (num, digits = 2) =>
+            digits - (num + '').length <= 0 ? num : zeropad('0' + num, digits);
 
         const code = {
             // Day
-            d : (d) => zeropad(d.getDate()),
-            D : (d) => wdays[d.getDay()].substr(0, 3),
-            j : (d) => d.getDate(),
-            l : (d) => wdays[d.getDay()],
-            N : (d) => (wday = d.getDay()) === 0 ? 7 : wday,
-            S : (d) => (day = d.getDate()) == 1 || day == 21 || day == 31 ? 'st'
-                    : (day == 2 || day == 22 ? 'nd'
-                        : (day == 3 || day == 23 ? 'rd' : 'th')),
-            w : (d) => d.getDay(),
-            z : (d) => {
+            d: (d) => zeropad(d.getDate()),
+            D: (d) => wdays[d.getDay()].substr(0, 3),
+            j: (d) => d.getDate(),
+            l: (d) => wdays[d.getDay()],
+            N: (d) => ((wday = d.getDay()) === 0 ? 7 : wday),
+            S: (d) =>
+                (day = d.getDate()) == 1 || day == 21 || day == 31
+                    ? 'st'
+                    : day == 2 || day == 22
+                    ? 'nd'
+                    : day == 3 || day == 23
+                    ? 'rd'
+                    : 'th',
+            w: (d) => d.getDay(),
+            z: (d) => {
                 const year = d.getYear();
                 let days = 0;
                 for (let m = 0, mon = d.getMonth(); m < mon; m++) {
@@ -329,7 +341,7 @@ SSC.Date = {
             },
 
             // Week
-            W : (d) => {
+            W: (d) => {
                 const getDay1 = (year) => code.N(new Date(year, 0, 1)) - 1;
                 const year = d.getFullYear();
                 const day1 = getDay1(year);
@@ -347,46 +359,50 @@ SSC.Date = {
             },
 
             // Month
-            F : (d) => months[d.getMonth()],
-            m : (d) => zeropad(d.getMonth() + 1),
-            M : (d) => months[d.getMonth()].substr(0, 3),
-            n : (d) => d.getMonth() + 1,
-            t : (d) => SSC.Date.getDaysOfMonth(d.getMonth(), d.getFullYear()),
+            F: (d) => months[d.getMonth()],
+            m: (d) => zeropad(d.getMonth() + 1),
+            M: (d) => months[d.getMonth()].substr(0, 3),
+            n: (d) => d.getMonth() + 1,
+            t: (d) => SSC.Date.getDaysOfMonth(d.getMonth(), d.getFullYear()),
 
             // Year
-            L : (d) => SSC.Date.isLeapYear(d.getFullYear()) ? 1 : 0,
-            o : (d) => {
+            L: (d) => (SSC.Date.isLeapYear(d.getFullYear()) ? 1 : 0),
+            o: (d) => {
                 let year = d.getFullYear();
                 const week = +code.W(d);
-                return (week == 1 && d.getMonth() == 11) ? ++year :
-                    (week >= 52 && d.getMonth() === 0) ? --year : year;
+                return week == 1 && d.getMonth() == 11
+                    ? ++year
+                    : week >= 52 && d.getMonth() === 0
+                    ? --year
+                    : year;
             },
-            Y : (d) => d.getFullYear(),
-            y : (d) => (d.getFullYear() + '').substr(2, 2),
+            Y: (d) => d.getFullYear(),
+            y: (d) => (d.getFullYear() + '').substr(2, 2),
 
             // Time
-            a : (d) => d.getHours() < 12 ? 'am' : 'pm',
-            A : (d) => d.getHours() < 12 ? 'AM' : 'PM',
-            B : (d) => {
-                let b = Math.floor((d.getUTCHours() * 60 * 60 + d.getUTCMinutes() * 60
-                        + d.getUTCSeconds() + 3600) / 86.4);
+            a: (d) => (d.getHours() < 12 ? 'am' : 'pm'),
+            A: (d) => (d.getHours() < 12 ? 'AM' : 'PM'),
+            B: (d) => {
+                let b = Math.floor(
+                    (d.getUTCHours() * 60 * 60 + d.getUTCMinutes() * 60 + d.getUTCSeconds() + 3600) / 86.4
+                );
                 if (b > 999) {
                     b -= 1000;
                 }
                 return zeropad(b, 3);
             },
-            g : (d) => d.getHours() % 12 || 12,
-            G : (d) => d.getHours(),
-            h : (d) => zeropad(d.getHours() % 12 || 12),
-            H : (d) => zeropad(d.getHours()),
-            i : (d) => zeropad(d.getMinutes()),
-            s : (d) => zeropad(d.getSeconds()),
-            u : (d) => code.v(d) + '000',
-            v : (d) => zeropad(d.getMilliseconds(), 3),
+            g: (d) => d.getHours() % 12 || 12,
+            G: (d) => d.getHours(),
+            h: (d) => zeropad(d.getHours() % 12 || 12),
+            H: (d) => zeropad(d.getHours()),
+            i: (d) => zeropad(d.getMinutes()),
+            s: (d) => zeropad(d.getSeconds()),
+            u: (d) => code.v(d) + '000',
+            v: (d) => zeropad(d.getMilliseconds(), 3),
 
             // Timezone
-            e : (d) => Intl.DateTimeFormat().resolvedOptions().timeZone,
-            I : (d) => {
+            e: (d) => Intl.DateTimeFormat().resolvedOptions().timeZone,
+            I: (d) => {
                 const off6 = -new Date(d.getFullYear(), 6, 1).getTimezoneOffset();
                 const off0 = -new Date(d.getFullYear(), 0, 1).getTimezoneOffset();
                 if (off6 == off0) {
@@ -397,8 +413,8 @@ SSC.Date = {
                 }
                 return -d.getTimezoneOffset() == off0 ? 1 : 0;
             },
-            O : (d) => code.P(d).replace(/\:/, ''),
-            P : (d) => {
+            O: (d) => code.P(d).replace(/\:/, ''),
+            P: (d) => {
                 let offset = d.getTimezoneOffset() / 60;
                 const pos = offset <= 0;
                 offset = Math.abs(offset);
@@ -406,16 +422,18 @@ SSC.Date = {
                 const min = (offset - hour) * 60;
                 return (pos ? '+' : '-') + zeropad(hour) + ':' + zeropad(min);
             },
+            p: (d) => code.P(d).replace('+00:00', 'Z'),
 
-            T : (d) => d.toLocaleTimeString('en-US', { timeZoneName : 'short' }).split(' ').pop(),
-            Z : (d) => -d.getTimezoneOffset() * 60,
+            T: (d) => d.toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ').pop(),
+            Z: (d) => -d.getTimezoneOffset() * 60,
 
             // Full Date/Time
-            c : (d) => SSC.Date.format(d, 'Y-m-d\\TH:i:sP'),
-            r : (d) => SSC.Date.format(d, 'D, d M Y H:i:s O'),
-            U : (d) => Math.floor(d.getTime() / 1000)
+            c: (d) => SSC.Date.format(d, 'Y-m-d\\TH:i:sP'),
+            r: (d) => SSC.Date.format(d, 'D, d M Y H:i:s O'),
+            U: (d) => Math.floor(d.getTime() / 1000),
         };
 
-        return (date, format) => format.replace(/\\?(.)/g, (match, c) => code.hasOwnProperty(match) ? code[match](date) : c);
-    })()
+        return (date, format) =>
+            format.replace(/\\?(.)/g, (match, c) => (code.hasOwnProperty(match) ? code[match](date) : c));
+    })(),
 };

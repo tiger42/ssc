@@ -362,7 +362,7 @@ SSC.Cookie = (() => {
          *
          * @return {SSC.Cookie}  Singleton instance of Cookie class
          */
-        getInstance : (name = 'sscdata') => {
+        getInstance: (name = 'sscdata') => {
             if (!instances[name]) {
                 instances[name] = new Cookie(name);
             }
@@ -374,7 +374,7 @@ SSC.Cookie = (() => {
          *
          * @return {boolean}  Are cookies allowed?
          */
-        isWritable : () => {
+        isWritable: () => {
             if (typeof document.cookie != 'string') {
                 return false;
             }
@@ -383,6 +383,6 @@ SSC.Cookie = (() => {
             document.cookie = '_testcookie=; expires=Tue, 01 Jan 2008 00:00:00 GMT;';
 
             return writable;
-        }
+        },
     };
 })();
