@@ -6,7 +6,7 @@ const printCoordinates = (coords) => {
 };
 
 const CoordinateObserver = {
-    notify : (coords) => {
+    notify: (coords) => {
         console.info(coords);
     }
 };
