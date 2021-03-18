@@ -27,7 +27,7 @@
 
             document.write('<table border="1" cellspacing="0" cellpadding="2"><tr><th>Timestamp</th>');
             <?php foreach ($codes as $code): ?>
-                document.write('<th><?= $code ?></th>')
+                document.write('<th><?= $code ?></th>');
             <?php endforeach ?>
             let tstamp, formatted;
             try {

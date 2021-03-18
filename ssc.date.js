@@ -2,7 +2,7 @@
  * @file A collection of date related functions.
  * @author Marc-Oliver Stühmer <stuehmer@codefoo.org>
  * @license MIT
- * @copyright 2019 Marc-Oliver Stühmer
+ * @copyright 2021 Marc-Oliver Stühmer
  */
 
 window.SSC = window.SSC || {};
@@ -254,7 +254,7 @@ SSC.Date = {
      * </tr>
      * <tr valign="top">
      *     <td><i>p</i></td>
-     *     <td>The same as P, but returns Z instead of +00:00</td>
+     *     <td>The same as <i>P</i>, but returns Z instead of +00:00</td>
      *     <td>Example: <i>+02:00</i></td>
      * </tr>
      * <tr valign="top">
@@ -405,7 +405,7 @@ SSC.Date = {
                 }
                 return -d.getTimezoneOffset() == off0 ? 1 : 0;
             },
-            O: (d) => code.P(d).replace(/\:/, ''),
+            O: (d) => code.P(d).replace(':', ''),
             P: (d) => {
                 let offset = d.getTimezoneOffset() / 60;
                 const pos = offset <= 0;

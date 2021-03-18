@@ -21,7 +21,7 @@ SSC.Test = (() => {
     };
 
     return {
-        assert : (expr, desc) => {
+        assert: (expr, desc) => {
             if (typeof expr != 'boolean') {
                 throw new TypeError('Parameter "expr" must be Boolean');
             }
@@ -31,13 +31,13 @@ SSC.Test = (() => {
             return expr && ok() || fail();
         },
 
-        assertSame : (expected, actual, desc) => SSC.Test.assert(expected === actual, desc),
+        assertSame: (expected, actual, desc) => SSC.Test.assert(expected === actual, desc),
 
-        writeTestResult : () => {
+        writeTestResult: () => {
             document.write('<br /><hr />');
             if (failed) {
                 document.write(`<b>${failed}</b> of <b>${failed + passed}</b> test${(failed + passed) > 1 ? 's ' : ' '}`);
-                document.write(`<b style="color: red;">FAILED</b>`);
+                document.write('<b style="color: red;">FAILED</b>');
                 alert('Errors found!');
             } else {
                 document.write(`All <b>${passed}</b> tests <b style="color: green;">PASSED</b>`);
